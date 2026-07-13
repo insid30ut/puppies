@@ -171,11 +171,21 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.5);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
   animation: fade-in-up 0.8s ease-out backwards;
+  
+  /* Custom small hand cursor */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🖐️</text></svg>") 16 16, pointer;
 }
 
 .image-card:hover {
   transform: translateY(-10px) scale(1.02);
   box-shadow: 0 15px 40px rgba(31, 38, 135, 0.1);
+}
+
+/* "Squish" effect when actively clicking/petting */
+.image-card:active {
+  transform: scale(0.98) translateY(-5px);
+  /* Closed hand when clicked down */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>✊</text></svg>") 16 16, pointer;
 }
 
 .image-card img {
@@ -184,6 +194,29 @@ main {
   object-fit: cover;
   border-radius: 16px;
   display: block;
+}
+
+/* Floating Hearts for Petting */
+.pet-heart {
+  position: absolute;
+  pointer-events: none;
+  font-size: 2rem;
+  animation: floatUp 1s ease-out forwards;
+  z-index: 100;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.8) rotate(-10deg);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.2) rotate(10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(1) rotate(-10deg);
+  }
 }
 
 footer {

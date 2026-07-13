@@ -75,14 +75,12 @@ async function fetchChicks() {
         'images/chick_4_1783957856096.png',
         'images/chick_5_1783957865601.png'
     ];
-    // Shuffle the list and take the first 3
     const shuffled = shuffleArray([...allChicks]);
     return shuffled.slice(0, 3);
 }
 
 async function fetchCuteAnimals() {
     try {
-        // Show loader and hide gallery
         loader.style.display = 'flex';
         gallery.classList.add('hidden');
         gallery.innerHTML = '';
@@ -97,11 +95,8 @@ async function fetchCuteAnimals() {
         ]);
 
         const allImages = [...dogs, ...cats, ...bunnies, ...foxes, ...chicks];
-        
-        // Shuffle the mixed images
         const shuffledImages = shuffleArray(allImages);
 
-        // Create cards for each image
         shuffledImages.forEach((imageUrl, index) => {
             const card = document.createElement('div');
             card.className = 'image-card';
@@ -116,7 +111,6 @@ async function fetchCuteAnimals() {
             gallery.appendChild(card);
         });
 
-        // Hide loader and show gallery
         loader.style.display = 'none';
         gallery.classList.remove('hidden');
         
@@ -125,6 +119,32 @@ async function fetchCuteAnimals() {
         loader.innerHTML = '<p>Oops! We had trouble finding cute animals. Please try refreshing the page.</p>';
     }
 }
+
+// Petting feature
+gallery.addEventListener('click', (e) => {
+    // Only pet if clicking on an image or the card itself
+    const card = e.target.closest('.image-card');
+    if (!card) return;
+
+    // Create a little floating heart
+    const heart = document.createElement('div');
+    heart.className = 'pet-heart';
+    
+    // Pick a random heart color to make it fun!
+    const hearts = ['❤️', '💖', '💕', '🥰', '✨'];
+    heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+    
+    // Position the heart exactly where the user clicked
+    heart.style.left = `${e.pageX - 15}px`;
+    heart.style.top = `${e.pageY - 20}px`;
+    
+    document.body.appendChild(heart);
+
+    // Remove the heart from DOM after the animation finishes
+    setTimeout(() => {
+        heart.remove();
+    }, 1000); // matches the 1s floatUp animation
+});
 
 // Initial fetch
 fetchCuteAnimals();
