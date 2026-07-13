@@ -30,7 +30,6 @@ async function fetchCats() {
         const res = await fetch('https://api.thecatapi.com/v1/images/search?limit=3');
         if (!res.ok) return [];
         const data = await res.json();
-        // The API might return more or fewer items
         return data.slice(0, 3).map(cat => cat.url);
     } catch {
         return [];
@@ -67,6 +66,20 @@ async function fetchFoxes() {
     return results.filter(url => url !== null);
 }
 
+// Get 3 random baby chicks
+async function fetchChicks() {
+    const allChicks = [
+        'images/chick_1_1783957830517.png',
+        'images/chick_2_1783957838952.png',
+        'images/chick_3_1783957846288.png',
+        'images/chick_4_1783957856096.png',
+        'images/chick_5_1783957865601.png'
+    ];
+    // Shuffle the list and take the first 3
+    const shuffled = shuffleArray([...allChicks]);
+    return shuffled.slice(0, 3);
+}
+
 async function fetchCuteAnimals() {
     try {
         // Show loader and hide gallery
@@ -75,14 +88,15 @@ async function fetchCuteAnimals() {
         gallery.innerHTML = '';
 
         // Fetch all animal types in parallel
-        const [dogs, cats, bunnies, foxes] = await Promise.all([
+        const [dogs, cats, bunnies, foxes, chicks] = await Promise.all([
             fetchDogs(),
             fetchCats(),
             fetchBunnies(),
-            fetchFoxes()
+            fetchFoxes(),
+            fetchChicks()
         ]);
 
-        const allImages = [...dogs, ...cats, ...bunnies, ...foxes];
+        const allImages = [...dogs, ...cats, ...bunnies, ...foxes, ...chicks];
         
         // Shuffle the mixed images
         const shuffledImages = shuffleArray(allImages);
